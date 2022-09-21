@@ -48,8 +48,20 @@ architecture Behavioral of universal_counter is
 begin
     process(reset, enable, load, down, data)
     begin
-        if (enable = '1' and load = '1') then 
-            count <= data;
+        if (reset = '1') then
+            count <= "0000";
+            over <= '0';
+        elsif (enable = '1') then
+        
+            if (load = '1') then 
+                count <= data;
+            elsif (down = '1') then
+                count <= count;
+            else
+                count <= count;
+            end if;
+            
+            
         end if;
     end process;
 end Behavioral;
