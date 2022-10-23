@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Tue Oct 18 14:29:08 2022
+# Process ID: 1512
+# Current directory: C:/Users/jhmso/vivado_projects/exercise3/exercise3.runs/impl_1
+# Command line: vivado.exe -log top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top.tcl -notrace
+# Log file: C:/Users/jhmso/vivado_projects/exercise3/exercise3.runs/impl_1/top.vdi
+# Journal file: C:/Users/jhmso/vivado_projects/exercise3/exercise3.runs/impl_1\vivado.jou
+# Running On: LAPTOP-3B46U8B5, OS: Windows, CPU Frequency: 3110 MHz, CPU Physical cores: 4, Host memory: 8266 MB
+#-----------------------------------------------------------
+source top.tcl -notrace

@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../exercise3.srcs/sources_1/imports/new/universal_counter.vhdl" \
+"../../../../exercise3.srcs/sources_1/new/top_pwm.vhd" \
+
+# Do not sort compile order
+nosort
