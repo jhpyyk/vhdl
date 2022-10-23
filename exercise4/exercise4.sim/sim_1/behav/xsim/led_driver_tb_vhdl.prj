@@ -1,7 +1,7 @@
 # compile vhdl design source files
 vhdl xil_defaultlib  \
 "../../../../exercise4.srcs/sources_1/new/led_driver.vhd" \
-"../../../../exercise4.srcs/sim_1/new/led_driver_tb2.vhd" \
+"../../../../exercise4.srcs/sim_1/new/led_driver_tb3.vhd" \
 
 # Do not sort compile order
 nosort

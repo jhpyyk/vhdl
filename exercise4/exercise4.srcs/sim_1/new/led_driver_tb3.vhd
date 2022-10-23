@@ -73,17 +73,10 @@ begin
     
     clock_process : process
     begin
-        if (test_alarm_flag = '1') then
             wait for 5ns;
             test_timer_alarm <= '0';
             wait for 5ns;
             test_timer_alarm <= '1';
-         else
-            wait for 5ns;
-            test_timer_normal <= '0';
-            wait for 5ns;
-            test_timer_normal <= '1';
-        end if;
     end process;
     
     stim_process : process
@@ -96,8 +89,6 @@ begin
         test_reset <= '0';
         wait for 500ns;
         test_alarm_flag <= '1';
-        wait for 100ns;
-        test_alarm_flag <= '0';
         wait for 500ns;
         
     end process;
