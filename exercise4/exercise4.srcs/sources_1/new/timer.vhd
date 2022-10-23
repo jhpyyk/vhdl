@@ -33,6 +33,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity timer is
     port(
+            speed_logic:      in std_logic_vector(1 downto 0);
             clk :       in std_logic;
             timer_out : out std_logic
          );
@@ -42,10 +43,25 @@ end timer;
 architecture Behavioral of timer is
     begin
         process (clk)
+            variable speed : integer;
             variable clk_freq : integer := 125_000_000;
             variable counter : integer := 0;
-            variable half_cycle : integer := clk_freq / (10 * 2); -- 5Hz; full cycle 10Hz
+            variable half_cycle : integer;
             begin
+                -- speed 1 is every second
+                -- speed 3 is every 3 seconds
+                -- speed 5 is every 5 seconds
+                if (speed_logic = "00") then
+                    speed := 1;           
+                elsif (speed_logic = "01") then
+                    speed := 3;
+                elsif (speed_logic = "11") then
+                    speed := 5;
+                else
+                    speed := 1;
+                end if;
+                
+                half_cycle := (clk_freq * speed) / 2;
                 if (rising_edge(clk)) then
                     counter := counter + 1;
                     

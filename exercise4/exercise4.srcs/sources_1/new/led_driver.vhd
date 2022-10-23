@@ -35,7 +35,6 @@ entity led_driver is
     port (
             clk :           in std_logic;
             reset :         in std_logic;
-            speed_logic :   in std_logic_vector(1 downto 0);
             loop_flag :     in std_logic;
             alarm :         in std_logic;
             led1 :          out std_logic_vector (7 downto 0);
@@ -54,7 +53,7 @@ architecture Behavioral of led_driver is
     signal next_state :     led_states;
     
     begin
-        process(clk, reset)
+        process(clk, reset, current_state, next_state)
             begin
                 if (rising_edge(clk)) then
                     if (reset = '1') then
@@ -65,69 +64,50 @@ architecture Behavioral of led_driver is
                 end if;
         end process;
         
-        process(clk, reset, speed_logic, loop_flag, alarm, current_state, next_state)
-            variable counter :        integer := 0;
-            variable speed :          integer := 1;
+        process(clk, reset, loop_flag, alarm, current_state, next_state)
             variable standby_counter :  integer := 0;
             begin
-                -- speed 1 is every second
-                -- speed 3 is every 3 seconds
-                -- speed 5 is every 5 seconds
-                if (speed_logic = "00") then
-                    speed := 1;           
-                elsif (speed_logic = "01") then
-                    speed := 3;
-                elsif (speed_logic = "11") then
-                    speed := 5;
-                else
-                    speed := 1;
-                end if;
-                
-                if (rising_edge(clk)) then
-                    if (counter = 10 * speed - 1) then
-                        case current_state is
-                            when state4 =>
-                                if (standby_counter = 4) then
-                                    next_state <= state1;
-                                    standby_counter := 0;
-                                else
-                                    standby_counter := standby_counter + 1;
-                                    next_state <= state4;
-                                end if;
-                            when state1 =>
-                                next_state <= state6;
-                            when state6 =>
-                                if (loop_flag = '0') then
-                                    next_state <= state2;
-                                else
-                                    next_state <= state7;
-                                end if;
-                            when state2 =>
-                                if (loop_flag = '0') then
-                                    next_state <= state3;
-                                else
-                                    next_state <= state6;
-                                end if;
-                            when state3 =>
-                                if (loop_flag = '0') then
-                                    next_state <= state7;
-                                else
-                                    next_state <= state2;
-                                end if;
-                            when state7 =>
-                                if (loop_flag = '0') then
-                                    next_state <= state1;
-                                else
-                                    next_state <= state3;
-                                end if;
-                            when state5 =>
-                                next_state <= state5;
-                            end case;
-                            counter := 0;
-                    else
-                        counter := counter + 1;
-                    end if;
-               end if;
+                case current_state is
+                    when state4 =>
+                        if (standby_counter = 4) then
+                            next_state <= state1;
+                            standby_counter := 0;
+                        elsif (reset = '0') then
+                            if (rising_edge(clk)) then
+                                standby_counter := standby_counter + 1;
+                            end if;
+                        else
+                            next_state <= state4;
+                        end if;
+                    when state1 =>
+                        next_state <= state6;
+                    when state6 =>
+                        if (loop_flag = '0') then
+                            next_state <= state2;
+                        else
+                            next_state <= state7;
+                        end if;
+                    when state2 =>
+                        if (loop_flag = '0') then
+                            next_state <= state3;
+                        else
+                            next_state <= state6;
+                        end if;
+                    when state3 =>
+                        if (loop_flag = '0') then
+                            next_state <= state7;
+                        else
+                            next_state <= state2;
+                        end if;
+                    when state7 =>
+                        if (loop_flag = '0') then
+                            next_state <= state1;
+                        else
+                            next_state <= state3;
+                        end if;
+                    when state5 =>
+                        next_state <= state5;
+                    end case;
                     
                     case current_state is
                         when state1 =>
